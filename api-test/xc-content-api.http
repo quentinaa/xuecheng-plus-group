@@ -1,0 +1,9 @@
+###查询课程信息
+POST {{content_host}}/course/list?pageNo=2&pageSize=10
+Content-Type: application/json
+
+{
+  "auditStatus": "",
+  "courseName": "",
+  "publishStatus": ""
+}

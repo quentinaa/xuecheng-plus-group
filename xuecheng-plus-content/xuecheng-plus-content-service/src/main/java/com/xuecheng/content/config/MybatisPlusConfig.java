@@ -8,10 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author xiong
- * @version 1.0
- * @description Mybatis-Plus配置
- * @date 2023/7/3 10:18:15
+ * <P>
+ *        Mybatis-Plus 配置
+ * </p>
  */
 @Configuration
 @MapperScan("com.xuecheng.content.mapper")
