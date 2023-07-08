@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -52,6 +53,21 @@ public interface MediaFileService {
     MediaFiles addMediaFilesToDb(Long companyId,String fileMd5,UploadFileParamsDto uploadFileParamsDto,String bucket,String objectName);
 
     /**
+     * @param localFilePath 文件本地路径
+     * @param mimeType      媒体类型
+     * @param bucket        桶
+     * @param objectName    对象名
+     * @return
+     */
+     boolean addMediaFilesToMinIO(String localFilePath, String mimeType, String bucket, String objectName);
+    /**
+     * 从minio下载文件
+     * @param bucket 桶
+     * @param objectName 对象名称
+     * @return 下载后的文件
+     */
+    File downloadFileFromMinIO(String bucket, String objectName);
+    /**
      * @description 检查文件是否存在
      * @param fileMd5 文件的md5
      * @return com.xuecheng.base.model.RestResponse<java.lang.Boolean> false不存在，true存在
@@ -82,4 +98,11 @@ public interface MediaFileService {
      * @return com.xuecheng.base.model.RestResponse
      */
     public RestResponse mergeChunks(Long companyId,String fileMd5,int chunkTotal,UploadFileParamsDto uploadFileParamsDto);
+
+    /**
+     * 根据媒资id查询信息
+     * @param mediaId
+     * @return
+     */
+    MediaFiles getFileById(String mediaId);
 }

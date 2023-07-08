@@ -47,11 +47,11 @@ public class BigFileController {
         File tempFile = File.createTempFile("minio", ".temp");
         file.transferTo(tempFile);
         //文件路径
-        String localFilePath= tempFile.getAbsolutePath();
+        String localFilePath = tempFile.getAbsolutePath();
 
-        mediaFileService.uploadChunk(fileMd5,chunk,localFilePath);
+        RestResponse restResponse = mediaFileService.uploadChunk(fileMd5, chunk, localFilePath);
 
-        return null;
+        return restResponse;
     }
 
     @ApiOperation(value = "合并文件")

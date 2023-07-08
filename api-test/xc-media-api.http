@@ -7,3 +7,13 @@ Content-Disposition: form-data; name="filedata"; filename="1.jpg"
 Content-Type: application/octet-stream
 
 < C:/Users/xzt/Pictures/Saved Pictures/1.jpg
+
+### 课程计划绑定视频
+POST {{gateway_host}}/media/teachplan/association/media
+Content-Type: application/json
+
+{
+  "mediaId": "",
+  "fileName": "",
+  "teachplanId": ""
+}

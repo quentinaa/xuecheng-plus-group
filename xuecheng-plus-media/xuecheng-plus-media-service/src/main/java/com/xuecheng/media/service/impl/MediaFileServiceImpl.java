@@ -10,10 +10,12 @@ import com.xuecheng.base.model.PageParams;
 import com.xuecheng.base.model.PageResult;
 import com.xuecheng.base.model.RestResponse;
 import com.xuecheng.media.mapper.MediaFilesMapper;
+import com.xuecheng.media.mapper.MediaProcessMapper;
 import com.xuecheng.media.model.dto.QueryMediaParamsDto;
 import com.xuecheng.media.model.dto.UploadFileParamsDto;
 import com.xuecheng.media.model.dto.UploadFileResultDto;
 import com.xuecheng.media.model.po.MediaFiles;
+import com.xuecheng.media.model.po.MediaProcess;
 import com.xuecheng.media.service.MediaFileService;
 import io.minio.*;
 import io.minio.messages.DeleteError;
@@ -54,6 +56,8 @@ public class MediaFileServiceImpl implements MediaFileService {
     private MinioClient minioClient;
     @Autowired
     private MediaFileService currentProxy;
+    @Autowired
+    private MediaProcessMapper mediaProcessMapper;
     //存储普通文件
     @Value("${minio.bucket.files}")
     private String bucket_mediafiles;
@@ -95,14 +99,8 @@ public class MediaFileServiceImpl implements MediaFileService {
         return mimeType;
     }
 
-    /**
-     * @param localFilePath 文件本地路径
-     * @param mimeType      媒体类型
-     * @param bucket        桶
-     * @param objectName    对象名
-     * @return
-     */
-    private boolean addMediaFilesToMinIO(String localFilePath, String mimeType, String bucket, String objectName) {
+    @Override
+    public boolean addMediaFilesToMinIO(String localFilePath, String mimeType, String bucket, String objectName) {
         try {
             UploadObjectArgs uploadObjectArgs = UploadObjectArgs.builder()
                     .bucket(bucket)
@@ -176,16 +174,39 @@ public class MediaFileServiceImpl implements MediaFileService {
             mediaFiles.setStatus("1");
             //保存文件信息到文件表
             int insert = mediaFilesMapper.insert(mediaFiles);
-            if (insert < 0) {
+            if (insert <= 0) {
                 log.error("保存文件信息到数据库失败,{}", mediaFiles);
                 XueChengPlusException.cast("保存文件信息失败");
             }
             log.debug("保存文件信息到数据库成功,{}", mediaFiles);
+            //记录待处理任务
+            addWaitingTask(mediaFiles);
+
 
         }
         return mediaFiles;
 
     }
+
+    private void addWaitingTask(MediaFiles mediaFiles) {
+        //获取文件的mimeType
+        //文件名称
+        String filename = mediaFiles.getFilename();
+        //文件扩展名
+        String extension = filename.substring(filename.lastIndexOf("."));
+        String mimeType = getMimeType(extension);
+        //通过mimeType判断如果是avi视频写入待处理任务
+        if (mimeType.equals("video/x-msvideo")){
+            MediaProcess mediaProcess=new MediaProcess();
+            BeanUtils.copyProperties(mediaFiles,mediaProcess);
+            //状态是未处理
+            mediaProcess.setStatus("1");
+            mediaProcess.setCreateDate(LocalDateTime.now());
+            mediaProcess.setFailCount(0);//失败次数默认0
+            mediaProcessMapper.insert(mediaProcess);
+        }
+    }
+
 
     @Override
     public RestResponse<Boolean> checkFile(String fileMd5) {
@@ -337,6 +358,11 @@ public class MediaFileServiceImpl implements MediaFileService {
         return RestResponse.success(true);
     }
 
+    @Override
+    public MediaFiles getFileById(String mediaId) {
+        return mediaFilesMapper.selectById(mediaId);
+    }
+
     /**
      * 清除分块文件
      * @param chunkFileFolderPath 分块文件路径
@@ -364,13 +390,8 @@ public class MediaFileServiceImpl implements MediaFileService {
         }
     }
 
-    /**
-     * 从minio下载文件
-     * @param bucket 桶
-     * @param objectName 对象名称
-     * @return 下载后的文件
-     */
-    private File downloadFileFromMinIO(String bucket, String objectName) {
+    @Override
+    public File downloadFileFromMinIO(String bucket, String objectName) {
         //临时文件
         File minioFile = null;
         FileOutputStream outputStream = null;
