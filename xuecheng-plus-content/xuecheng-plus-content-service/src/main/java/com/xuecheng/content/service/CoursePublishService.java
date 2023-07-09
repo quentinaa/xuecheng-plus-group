@@ -26,4 +26,11 @@ public interface CoursePublishService extends IService<CoursePublish> {
      * @return void
      */
     public void commitAudit(Long companyId,Long courseId);
+
+    /**
+     *
+     * @param companyId
+     * @param courseId
+     */
+    void  publish(Long companyId,Long courseId);
 }

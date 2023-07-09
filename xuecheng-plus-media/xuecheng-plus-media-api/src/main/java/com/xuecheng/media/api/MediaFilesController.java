@@ -32,7 +32,6 @@ public class MediaFilesController {
     @Autowired
     MediaFileService mediaFileService;
 
-
     @ApiOperation("媒资列表查询接口")
     @PostMapping("/files")
     public PageResult<MediaFiles> list(PageParams pageParams, @RequestBody QueryMediaParamsDto queryMediaParamsDto) {
@@ -40,9 +39,9 @@ public class MediaFilesController {
         return mediaFileService.queryMediaFiels(companyId, pageParams, queryMediaParamsDto);
     }
 
-    @ApiOperation("上传图片")
+    @ApiOperation("上传文件")
     @RequestMapping(value = "/upload/coursefile",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public UploadFileResultDto upload(@RequestPart("filedata")MultipartFile filedata) throws IOException {
+    public UploadFileResultDto upload(@RequestPart("filedata")MultipartFile filedata,@RequestParam(value= "objectName",required=false) String objectName) throws IOException {
 
         //准备上传文件的信息
         UploadFileParamsDto uploadFileParamsDto = new UploadFileParamsDto();
@@ -62,7 +61,7 @@ public class MediaFilesController {
         String localFilePath = tempFile.getAbsolutePath();
 
         //调用service上传图片
-        UploadFileResultDto uploadFileResultDto = mediaFileService.uploadFile(companyId, uploadFileParamsDto, localFilePath);
+        UploadFileResultDto uploadFileResultDto = mediaFileService.uploadFile(companyId, uploadFileParamsDto, localFilePath,objectName);
 
         return uploadFileResultDto;
     }

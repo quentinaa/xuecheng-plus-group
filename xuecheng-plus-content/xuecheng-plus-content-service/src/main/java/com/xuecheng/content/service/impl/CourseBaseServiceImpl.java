@@ -140,6 +140,9 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
         CourseMarket courseMarket = courseMarketMapper.selectById(courseId);
         CourseBaseInfoDto courseBaseInfoDto = new CourseBaseInfoDto();
         BeanUtils.copyProperties(courseBase, courseBaseInfoDto);
+        if (courseMarket==null) {
+           XueChengPlusException.cast("课程营销信息不能为空");
+        }
         BeanUtils.copyProperties(courseMarket, courseBaseInfoDto);
         CourseCategory courseCategoryMt = courseCategoryMapper.selectById(courseBase.getMt());
         CourseCategory courseCategorySt = courseCategoryMapper.selectById(courseBase.getSt());

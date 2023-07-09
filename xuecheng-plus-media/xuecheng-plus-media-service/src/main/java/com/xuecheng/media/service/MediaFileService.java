@@ -38,7 +38,7 @@ public interface MediaFileService {
      * @param localFilePath 本地文件路径
      * @return
      */
-    UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath);
+    UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath,String objectName);
 
     /**
      * @description 将文件信息添加到文件表
