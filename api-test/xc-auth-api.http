@@ -1,0 +1,11 @@
+### 授权码模式
+### 第一步申请授权码(浏览器请求)
+### /oauth/authorize?client_id=c1&response_type=code&scope=all&redirect_uri=http://www.51xuecheng.cn
+### 第二步申请令牌
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=authorization_code&code=Bpputj&redirect_uri=http://www.51xuecheng.cn
+
+### 密码模式
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username=stu1&password=111111
+
+###校验jwt令牌
+POST {{auth_host}}/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJsaXNpIiwic2NvcGUiOlsiYWxsIl0sImV4cCI6MTY4ODkxMzgxOSwiYXV0aG9yaXRpZXMiOlsicDIiXSwianRpIjoiNjg4Mzk5ZmItOWNhOS00OWQ2LThmN2YtMjlkMDdhZjcwOTE0IiwiY2xpZW50X2lkIjoiWGNXZWJBcHAifQ.UUEMsfmiE7j3cknuEF4MV75kTLwOzfc8Tr3_p0ODkL0

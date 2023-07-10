@@ -1,6 +1,7 @@
 package com.xuecheng.media.service.impl;
 
 import com.alibaba.nacos.common.utils.IoUtils;
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.j256.simplemagic.ContentInfo;
@@ -70,9 +71,11 @@ public class MediaFileServiceImpl implements MediaFileService {
 
         //构建查询条件对象
         LambdaQueryWrapper<MediaFiles> queryWrapper = new LambdaQueryWrapper<>();
-
         //分页对象
         Page<MediaFiles> page = new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
+        //查询参数
+        queryWrapper.like(!org.springframework.util.StringUtils.isEmpty(queryMediaParamsDto.getFilename()), MediaFiles::getFilename, queryMediaParamsDto.getFilename());
+        queryWrapper.eq(!org.springframework.util.StringUtils.isEmpty(queryMediaParamsDto.getFileType()), MediaFiles::getFileType, queryMediaParamsDto.getFileType());
         // 查询数据内容获得结果
         Page<MediaFiles> pageResult = mediaFilesMapper.selectPage(page, queryWrapper);
         // 获取数据列表
@@ -434,7 +437,7 @@ public class MediaFileServiceImpl implements MediaFileService {
         String defaultFolderPath = getDefaultFolderPath();
         //MD5值
         String fileMd5 = getFileMd5(new File(localFilePath));
-        if (objectName.isEmpty()){
+        if (StringUtils.isEmpty(objectName)){
             objectName = defaultFolderPath + fileMd5 + extension;
         }
         //文件上传到minio

@@ -12,6 +12,7 @@ import com.xuecheng.content.service.CourseBaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,10 @@ public class CourseBaseInfoController {
     @ApiOperation("课程分页查询接口")
     @PostMapping("/course/list")
     public PageResult<CourseBase> list(PageParams pageParams, @RequestBody(required=false) QueryCourseParamsDto queryCourseParamsDto) {
-       return courseBaseService.queryCourseBaseList(pageParams,queryCourseParamsDto);
+        //获取当前用户的身份
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(principal);
+        return courseBaseService.queryCourseBaseList(pageParams,queryCourseParamsDto);
     }
 
     @ApiOperation("课程新增接口")
