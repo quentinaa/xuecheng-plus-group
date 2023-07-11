@@ -17,7 +17,7 @@ import java.util.Properties;
 public class MailUtil {
     public static void main(String[] args) throws MessagingException {
         //可以在这里直接测试方法，填自己的邮箱即可
-        sendTestMail("359704157@qq.com", new MailUtil().achieveCode());
+        sendTestMail("35970@qq.com", new MailUtil().achieveCode());
     }
     /**
      * 发送邮件
@@ -35,9 +35,9 @@ public class MailUtil {
         //端口号，QQ邮箱端口587
         properties.put("mail.smtp.port", "587");
         // 此处填写，写信人的账号
-        properties.put("mail.user", "359704157@qq.com");
+        properties.put("mail.user", "3597@qq.com");
         // 此处填写16位STMP口令
-        properties.put("mail.password", "lxfqboqgfpyrbijh");
+        properties.put("mail.password", "");
         // 构建授权信息，用于进行SMTP进行身份验证
         Authenticator authenticator=new Authenticator() {
             @Override

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xuecheng.ucenter.mapper.XcUserMapper;
 import com.xuecheng.ucenter.mapper.XcUserRoleMapper;
 import com.xuecheng.ucenter.model.dto.AuthParamsDto;
+import com.xuecheng.ucenter.model.dto.RegisterDto;
 import com.xuecheng.ucenter.model.dto.XcUserExt;
 import com.xuecheng.ucenter.model.po.XcUser;
 import com.xuecheng.ucenter.model.po.XcUserRole;
@@ -62,6 +63,7 @@ public class WxAuthServiceImpl implements AuthService, WxAuthService {
 
         return xcUserExt;
     }
+
 
     @Override
     public XcUser wxAuth(String code) {

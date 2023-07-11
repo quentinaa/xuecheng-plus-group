@@ -2,6 +2,7 @@ package com.xuecheng.auth.controller;
 
 import com.xuecheng.ucenter.mapper.XcUserMapper;
 import com.xuecheng.ucenter.model.dto.FindPswDto;
+import com.xuecheng.ucenter.model.dto.RegisterDto;
 import com.xuecheng.ucenter.model.po.XcUser;
 import com.xuecheng.ucenter.service.VerifyService;
 import io.swagger.annotations.ApiOperation;
@@ -58,4 +59,11 @@ public class LoginController {
     public void findPassword(@RequestBody FindPswDto findPswDto) {
         verifyService.findPassword(findPswDto);
     }
+
+    @ApiOperation(value = "注册", tags = "注册")
+    @PostMapping("/register")
+    public void register(@RequestBody RegisterDto registerDto) {
+        verifyService.register(registerDto);
+    }
+
 }

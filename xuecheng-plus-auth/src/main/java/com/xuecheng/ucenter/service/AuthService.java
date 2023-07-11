@@ -1,6 +1,7 @@
 package com.xuecheng.ucenter.service;
 
 import com.xuecheng.ucenter.model.dto.AuthParamsDto;
+import com.xuecheng.ucenter.model.dto.RegisterDto;
 import com.xuecheng.ucenter.model.dto.XcUserExt;
 
 public interface AuthService {
@@ -11,4 +12,5 @@ public interface AuthService {
      * @author xiong
      */
     XcUserExt execute(AuthParamsDto authParamsDto);
+
 }
