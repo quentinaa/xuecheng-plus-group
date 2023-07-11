@@ -47,7 +47,7 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
     private CourseTeacherMapper courseTeacherMapper;
 
     @Override
-    public PageResult<CourseBase> queryCourseBaseList(PageParams pageParams, QueryCourseParamsDto courseParamsDto) {
+    public PageResult<CourseBase> queryCourseBaseList(Long companyId, PageParams pageParams, QueryCourseParamsDto courseParamsDto) {
         //拼装查询条件
         LambdaQueryWrapper<CourseBase> queryWrapper = new LambdaQueryWrapper<>();
         //根据名称模糊查询
@@ -56,6 +56,8 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
         queryWrapper.eq(StringUtils.isNotEmpty(courseParamsDto.getAuditStatus()), CourseBase::getAuditStatus, courseParamsDto.getAuditStatus());
         //根据课程发布状态查询
         queryWrapper.eq(StringUtils.isNotEmpty(courseParamsDto.getPublishStatus()), CourseBase::getStatus, courseParamsDto.getPublishStatus());
+        //跟据培训机构id拼接查询条件
+        queryWrapper.eq(CourseBase::getCompanyId,companyId);
         //创建page分页参数对象
         Page<CourseBase> page = new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
         //开始进行分页查询

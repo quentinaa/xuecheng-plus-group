@@ -19,7 +19,7 @@ import com.xuecheng.content.model.po.CourseBase;
  */
 public interface CourseBaseService extends IService<CourseBase> {
     //课程分页查询
-    PageResult<CourseBase> queryCourseBaseList(PageParams pageParams, QueryCourseParamsDto courseParamsDto);
+    PageResult<CourseBase> queryCourseBaseList(Long companyId, PageParams pageParams, QueryCourseParamsDto courseParamsDto);
 
     /**
      * 新增课程

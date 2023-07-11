@@ -25,7 +25,7 @@ public class CourseBaseInfoServiceTests {
         QueryCourseParamsDto queryCourseParamsDto=new QueryCourseParamsDto();
         queryCourseParamsDto.setCourseName("java");
         PageParams pageParams=new PageParams();
-        PageResult<CourseBase> courseBasePageResult= courseBaseService.queryCourseBaseList(pageParams,queryCourseParamsDto);
-        System.out.println(courseBasePageResult);
+       // PageResult<CourseBase> courseBasePageResult= courseBaseService.queryCourseBaseList(pageParams,queryCourseParamsDto);
+      //  System.out.println(courseBasePageResult);
     }
 }

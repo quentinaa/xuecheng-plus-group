@@ -9,9 +9,12 @@ import com.xuecheng.content.model.dto.EditCourseDto;
 import com.xuecheng.content.model.dto.QueryCourseParamsDto;
 import com.xuecheng.content.model.po.CourseBase;
 import com.xuecheng.content.service.CourseBaseService;
+import com.xuecheng.content.util.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +33,18 @@ public class CourseBaseInfoController {
     private CourseBaseService courseBaseService;
 
     @ApiOperation("课程分页查询接口")
+    @PreAuthorize("hasAuthority('xc_teachmanager_course_list')")//指定权限标识符,拥有此权限才可访问
     @PostMapping("/course/list")
     public PageResult<CourseBase> list(PageParams pageParams, @RequestBody(required=false) QueryCourseParamsDto queryCourseParamsDto) {
         //获取当前用户的身份
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(principal);
-        return courseBaseService.queryCourseBaseList(pageParams,queryCourseParamsDto);
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        System.out.println(principal);
+        SecurityUtil.XcUser user=SecurityUtil.getUser();
+        Long companyId = null;
+        if (StringUtils.isNotEmpty(user.getCompanyId())){
+            companyId=Long.parseLong(user.getCompanyId());
+        }
+        return courseBaseService.queryCourseBaseList(companyId,pageParams,queryCourseParamsDto);
     }
 
     @ApiOperation("课程新增接口")
