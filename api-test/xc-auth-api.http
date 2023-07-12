@@ -15,3 +15,19 @@ POST {{auth_host}}/auth/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX
 ################扩展认证请求参数后######################
 ###密码模式
 POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"username":"stu1","authType":"password","password":"111111"}
+
+
+###注册
+POST {{auth_host}}/auth/register
+Content-Type: application/json
+
+{
+   cellphone:"",
+   username:"",
+   email:"",
+   nickname:"",
+   password:"",
+   confirmpwd:"",
+   checkcodekey:"",
+   checkcode:""
+}

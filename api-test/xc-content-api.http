@@ -41,3 +41,6 @@ GET {{content_host}}/content/course/40
 
 ###查询某个课程的课程计划
 GET {{content_host}}/content/teacheplan/74/tree-nodes
+
+### 查询课程发布信息
+GET {{content_host}}/content/r/coursepublish/134

@@ -17,7 +17,7 @@ import java.util.Properties;
 public class MailUtil {
     public static void main(String[] args) throws MessagingException {
         //可以在这里直接测试方法，填自己的邮箱即可
-        sendTestMail("35970@qq.com", new MailUtil().achieveCode());
+        sendTestMail("@qq.com", new MailUtil().achieveCode());
     }
     /**
      * 发送邮件
@@ -35,7 +35,7 @@ public class MailUtil {
         //端口号，QQ邮箱端口587
         properties.put("mail.smtp.port", "587");
         // 此处填写，写信人的账号
-        properties.put("mail.user", "3597@qq.com");
+        properties.put("mail.user", "@qq.com");
         // 此处填写16位STMP口令
         properties.put("mail.password", "");
         // 构建授权信息，用于进行SMTP进行身份验证
@@ -59,9 +59,9 @@ public class MailUtil {
         InternetAddress to=new InternetAddress(email);
         mimeMessage.setRecipient(Message.RecipientType.TO,to);
         // 设置邮件标题
-        mimeMessage.setSubject("Kyle's Blog 邮件测试");
+        mimeMessage.setSubject("学成在线 邮件测试");
         // 设置邮件的内容体
-        mimeMessage.setContent("尊敬的用户:你好!\n注册验证码为:" + code + "(有效期为一分钟,请勿告知他人)", "text/html;charset=UTF-8");
+        mimeMessage.setContent("尊敬的用户:你好!\n注册验证码为:" + code + "(有效期为三分钟,请勿告知他人)", "text/html;charset=UTF-8");
         // 最后当然就是发送邮件啦
         Transport.send(mimeMessage);
     }

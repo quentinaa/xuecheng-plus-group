@@ -6,6 +6,7 @@ import com.xuecheng.checkcode.util.MailUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -20,9 +21,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Slf4j
 public class SendCodeServiceImpl implements SendCodeService {
-    public final Long CODE_TTL = 120L;
+    public final Long CODE_TTL = 360L;
     @Autowired
-    RedisTemplate redisTemplate;
+    StringRedisTemplate redisTemplate;
     @Override
     public void sendEMail(String email, String code) {
         // 1. 向用户发送验证码
@@ -32,7 +33,8 @@ public class SendCodeServiceImpl implements SendCodeService {
             log.debug("邮件发送失败：{}", e.getMessage());
             XueChengPlusException.cast("发送验证码失败，请稍后再试");
         }
-        // 2. 将验证码缓存到redis，TTL设置为2分钟
+        // 2. 将验证码缓存到redis，TTL设置为3分钟
         redisTemplate.opsForValue().set(email, code, CODE_TTL, TimeUnit.SECONDS);
+
     }
 }

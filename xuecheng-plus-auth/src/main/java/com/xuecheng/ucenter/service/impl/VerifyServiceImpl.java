@@ -10,9 +10,11 @@ import com.xuecheng.ucenter.model.po.XcUserRole;
 import com.xuecheng.ucenter.service.VerifyService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -27,7 +29,7 @@ import java.util.UUID;
 @Service
 public class VerifyServiceImpl implements VerifyService {
     @Autowired
-    StringRedisTemplate redisTemplate;
+   StringRedisTemplate redisTemplate;
     @Autowired
     XcUserMapper userMapper;
     @Autowired
@@ -56,7 +58,9 @@ public class VerifyServiceImpl implements VerifyService {
     }
 
     @Override
+    @Transactional
     public void register(RegisterDto registerDto) {
+        System.out.println(registerDto);
         String uuid = UUID.randomUUID().toString();
         String email = registerDto.getEmail();
         String checkcode = registerDto.getCheckcode();
