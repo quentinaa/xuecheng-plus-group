@@ -9,6 +9,11 @@
     </parent>
     <artifactId>xuecheng-plus-content-api</artifactId>
     <dependencies>
+        <dependency>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>1.2.2</version>
+        </dependency>
         <!--认证相关-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
